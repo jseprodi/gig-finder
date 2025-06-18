@@ -1,5 +1,6 @@
 import { getConcertsByBandSlug, getBands } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Main = styled("main", {
   maxWidth: "64rem",
@@ -125,6 +126,7 @@ export default async function BandConcertsPage({ params }: { params: Promise<{ s
 
   return (
     <Main>
+      <Breadcrumbs />
       <Heading>Concerts for this Band</Heading>
       <ConcertList>
         {concerts.map(concert => {

@@ -7,7 +7,13 @@ import styles from "../app/page.module.css";
 import { VenueItem } from "./VenueItem";
 import Fuse from "fuse.js";
 
-export default function VenueSearch() {
+export default function VenueSearch({
+  onResults,
+  containerClass,
+}: {
+  onResults?: (results: Venue[]) => void;
+  containerClass?: string;
+}) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Venue[]>([]);
   const [loading, setLoading] = useState(false);
@@ -28,11 +34,22 @@ export default function VenueSearch() {
     }
     setResults(filtered);
     setLoading(false);
+    if (onResults) onResults(filtered);
   }
 
   return (
-    <div>
-      <form onSubmit={handleSearch} className={styles.searchForm}>
+    <div className={containerClass} style={{ display: "block", width: "100%" }}>
+      <form
+        onSubmit={handleSearch}
+        className={styles.searchForm}
+        style={{
+          width: "100%",
+          marginBottom: "0.5rem",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
         <input
           className={styles.input}
           type="text"
@@ -44,36 +61,38 @@ export default function VenueSearch() {
           {loading ? "Searching..." : "Search"}
         </button>
       </form>
-      <div className="flex flex-col md:flex-row mt-6 md:gap-6">
-        {/* Filter Sidebar (placeholder for future filters) */}
-        <aside className="flex-shrink-0 bg-white rounded-lg shadow p-4 mb-6 md:mb-0 md:w-64">
-          <h4 className="m-0 py-2 text-lg font-semibold text-gray-800">
-            Category
-          </h4>
-          <ul className="m-0 min-h-full gap-2 p-0 list-none">
-            {/* No venue taxonomies yet */}
-          </ul>
-        </aside>
-        {/* Venue Grid */}
-        <section className="flex-1">
-          {results && results.length > 0 ? (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 p-0 list-none">
-              {results.map((venue) => (
-                <li
-                  key={venue.system.id}
-                  className="bg-white rounded-lg shadow p-4 flex flex-col h-full"
-                >
-                  <VenueItem venue={venue} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="self-center text-center w-full h-10 pt-2 text-gray-500">
-              No venues found
-            </div>
-          )}
-        </section>
-      </div>
+      {results && results.length === 0 && !loading && (
+        <div
+          className={styles.noResultsMsg}
+          style={{
+            width: "100%",
+            marginBottom: "1.5rem",
+            display: "block",
+          }}
+        >
+          No venues found
+        </div>
+      )}
+      {/* Only render the venue grid if there are results */}
+      {results && results.length > 0 && (
+        <div style={{ width: "100%", display: "block" }}>
+          <div className="flex flex-col md:flex-row mt-6 md:gap-6">
+            {/* Venue Grid */}
+            <section className="flex-1">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 p-0 list-none">
+                {results.map((venue) => (
+                  <li
+                    key={venue.system.id}
+                    className="bg-white rounded-lg shadow p-4 flex flex-col h-full"
+                  >
+                    <VenueItem venue={venue} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

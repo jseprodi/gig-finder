@@ -1,20 +1,31 @@
 import { getConcertsByVenueSlug } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
 import Image from "next/image";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
-const Main = styled("main", {
-  maxWidth: "64rem",
-  margin: "0 auto",
-  padding: "$12 $4",
+const Main = styled('main', {
+  maxWidth: '64rem',
+  margin: '0 auto',
+  padding: '3rem 1.5rem',
+  background: 'linear-gradient(135deg, #1e293b 80%, #2563eb 100%)',
+  minHeight: '80vh',
+  color: '#fff',
+  borderRadius: '2rem',
+  boxShadow: '0 4px 32px #0003',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '2.5rem',
 });
 
-const Heading = styled("h1", {
-  fontSize: "$3xl",
-  fontWeight: "$bold",
-  marginBottom: "$10",
-  textAlign: "center",
-  color: "$heading",
-  letterSpacing: "-0.01em",
+const Heading = styled('h1', {
+  fontSize: '2.2rem',
+  fontWeight: 800,
+  marginBottom: '2rem',
+  textAlign: 'center',
+  color: '#60a5fa',
+  letterSpacing: '-0.01em',
+  textShadow: '0 2px 8px #0002',
 });
 
 const ConcertList = styled("ul", {
@@ -47,18 +58,26 @@ const CardBody = styled("div", {
   flex: 1,
 });
 
-const Title = styled("h2", {
-  fontSize: "$xl",
-  fontWeight: "$bold",
-  marginBottom: "$2",
-  color: "$text",
-});
-
-const Info = styled("div", {
+const InfoRow = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  gap: "$6",
+  justifyContent: "center",
+  alignItems: "center",
   fontSize: "$base",
   color: "$muted",
-  marginBottom: "$1",
-  span: { color: "$text", fontWeight: "$normal" },
+  marginBottom: "$2",
+  flexWrap: "wrap",
+});
+
+const InfoLabel = styled("span", {
+  color: "$muted",
+  fontWeight: "$medium",
+});
+
+const InfoValue = styled("span", {
+  color: "$text",
+  fontWeight: "$normal",
 });
 
 const ReviewsLink = styled("a", {
@@ -77,6 +96,22 @@ const ReviewsLink = styled("a", {
   },
 });
 
+const StyledLink = styled("a", {
+  color: "$accent",
+  textDecoration: "underline",
+  fontWeight: "$medium",
+  cursor: "pointer",
+  "&:hover": { color: "#1d4ed8" },
+});
+
+const Paragraph = styled("div", {
+  fontSize: "$base",
+  color: "$text",
+  margin: "1.5rem 0",
+  width: "100%",
+  textAlign: "left",
+});
+
 export default async function VenueConcertsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const concerts = await getConcertsByVenueSlug(slug);
@@ -85,12 +120,12 @@ export default async function VenueConcertsPage({ params }: { params: Promise<{ 
 
   return (
     <Main>
+      <Breadcrumbs />
       <Heading>Concerts at this Venue</Heading>
       <ConcertList>
         {concerts.map(concert => {
           // Get main band (headliner) info
           const mainBand = concert.elements.supporting_artist.linkedItems?.[0] || null;
-          const bandLogo = mainBand?.elements.band_logo?.value?.[0]?.url || "";
           const promoImage = mainBand?.elements.promotional_image?.value?.[0]?.url || concert.elements.hero_image.value[0]?.url || "";
           const bandName = mainBand?.elements.band_name?.value || concert.elements.band?.value || "";
           const venue = concert.elements.venue.linkedItems?.[0];
@@ -104,48 +139,74 @@ export default async function VenueConcertsPage({ params }: { params: Promise<{ 
             <Card key={concert.system.id}>
               {/* Hero Image */}
               {promoImage && (
-                <Image src={promoImage} alt={concert.elements.title.value} width={600} height={300} style={{ objectFit: 'cover', width: '100%', height: '12rem', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }} />
+                <Image src={promoImage} alt={concert.elements.title.value} width={600} height={300} style={{ width: '100%', height: '16rem', objectFit: 'cover', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }} />
               )}
               <CardBody>
-                <Title>{concert.elements.title.value}</Title>
-                {/* Main Band Logo Centered */}
-                {bandLogo && (
-                  <Image src={bandLogo} alt="Band Logo" width={80} height={80} style={{ display: 'block', margin: '1.5rem auto', objectFit: 'contain', borderRadius: '50%', background: '#f3f4f6', boxShadow: '0 2px 8px #0001' }} />
+                {/* Concert Title */}
+                <h2 style={{ fontSize: '2rem', fontWeight: 700, margin: '1.5rem 0 0.5rem 0', color: '#1e3a8a', letterSpacing: '-0.01em', textAlign: 'center' }}>{concert.elements.title.value}</h2>
+                {/* Date and Time */}
+                <InfoRow>
+                  <InfoLabel>Date & Time:</InfoLabel>
+                  <InfoValue>{eventDate}</InfoValue>
+                </InfoRow>
+                {/* Venue (link) */}
+                <InfoRow>
+                  <InfoLabel>Venue:</InfoLabel>
+                  <StyledLink href={venueSlug ? `/venues/${venueSlug}` : '#'} style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'underline', borderBottom: '2px solid #2563eb' }}>
+                    <InfoValue>{venueName}</InfoValue>
+                  </StyledLink>
+                </InfoRow>
+                {/* Band (headliner) */}
+                <InfoRow>
+                  <InfoLabel>Band:</InfoLabel>
+                  <InfoValue>{bandName}</InfoValue>
+                </InfoRow>
+                {/* Supporting Artist (link) */}
+                {supporting && (
+                  <InfoRow>
+                    <InfoLabel>Supporting Artist:</InfoLabel>
+                    <StyledLink href={supportingSlug ? `/bands/${supportingSlug}` : '#'} style={{ color: '#2563eb', fontWeight: 600, textDecoration: 'underline', borderBottom: '2px solid #2563eb' }}>
+                      <InfoValue>{supportingName}</InfoValue>
+                    </StyledLink>
+                  </InfoRow>
                 )}
-                <Info>
-                  Date: <span>{eventDate}</span>
-                </Info>
-                <Info>
-                  Band: <span>{bandName}</span>
-                </Info>
-                <Info>
-                  Venue: <a href={venueSlug ? `/venues/${venueSlug}` : '#'} style={{ color: '#2563eb', textDecoration: 'underline' }}>{venueName}</a>
-                </Info>
-                <Info>
-                  Supporting Artist: <a href={supportingSlug ? `/bands/${supportingSlug}` : '#'} style={{ color: '#2563eb', textDecoration: 'underline' }}>{supportingName || 'None'}</a>
-                </Info>
                 {/* Lead Paragraph */}
                 {concert.elements.lead_paragraph.value && (
-                  <div style={{ fontSize: '0.95rem', color: '#444', marginTop: '0.75rem' }}>
-                    <div dangerouslySetInnerHTML={{ __html: concert.elements.lead_paragraph.value }} />
-                  </div>
+                  <Paragraph dangerouslySetInnerHTML={{ __html: concert.elements.lead_paragraph.value }} />
                 )}
-                {/* Second Image Centered (main band promo image if available) */}
-                {promoImage && (
-                  <Image src={promoImage} alt="Promotional" width={400} height={200} style={{ display: 'block', margin: '2rem auto', maxWidth: '80%', borderRadius: '0.75rem', boxShadow: '0 2px 8px #0001' }} />
-                )}
-                {/* Body Paragraph */}
-                {concert.elements.untitled_rich_text?.value && (
-                  <div style={{ fontSize: '0.95rem', color: '#444', marginTop: '0.75rem' }}>
-                    <div dangerouslySetInnerHTML={{ __html: concert.elements.untitled_rich_text.value }} />
-                  </div>
-                )}
+                {/* Body Paragraph with second image (from rich text) floated left */}
+                {concert.elements.untitled_rich_text?.value ? (
+                  (() => {
+                    const html = concert.elements.untitled_rich_text.value;
+                    const imgRegex = /<img [^>]*src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*>/i;
+                    const match = html.match(imgRegex);
+                    let imgHtml = null;
+                    let textHtml = html;
+                    if (match) {
+                      const [imgTag, src, alt] = match;
+                      imgHtml = (
+                        <img
+                          src={src}
+                          alt={alt}
+                          style={{ float: 'left', margin: '0 2rem 1rem 0', maxWidth: '40%', borderRadius: '0.75rem', boxShadow: '0 2px 8px #0001', objectFit: 'cover' }}
+                        />
+                      );
+                      textHtml = html.replace(imgTag, '');
+                    }
+                    return (
+                      <Paragraph style={{ margin: 0, overflow: 'hidden', width: '100%' }}>
+                        {imgHtml}
+                        <span dangerouslySetInnerHTML={{ __html: textHtml }} />
+                      </Paragraph>
+                    );
+                  })()
+                ) : null}
                 {/* Buy Tickets Button (centered, own line) */}
                 {concert.elements.ticket_purchasing.value && (
                   <div style={{ display: 'flex', justifyContent: 'center', margin: '1.5rem 0 0.5rem 0' }}>
-                    <a href={concert.elements.ticket_purchasing.value} target="_blank" rel="noopener noreferrer" style={{ fontSize: '1.1rem', fontWeight: 600, background: '#2563eb', color: '#fff', padding: '0.5rem 1.5rem', borderRadius: '0.75rem', boxShadow: '0 2px 8px #2563eb22', textDecoration: 'none', textAlign: 'center', minWidth: 160 }}>
+                    <StyledLink href={concert.elements.ticket_purchasing.value} target="_blank" rel="noopener noreferrer" style={{ fontSize: '1.1rem', fontWeight: 600, background: '#2563eb', color: '#fff', padding: '0.5rem 1.5rem', borderRadius: '0.75rem', boxShadow: '0 2px 8px #2563eb22', textDecoration: 'none', textAlign: 'center', minWidth: 160 }}>
                       Buy Tickets
-                    </a>
+                    </StyledLink>
                   </div>
                 )}
                 {/* Read Reviews Button (centered, own line, below Buy Tickets) */}

@@ -2,6 +2,7 @@ import { getConcertReviews } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
 import Link from "next/link";
 import type { Person } from "@/models/content-types/person";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Main = styled('main', {
   maxWidth: '40rem',
@@ -63,6 +64,7 @@ export default async function AuthorsListPage() {
 
   return (
     <Main>
+      <Breadcrumbs />
       <Heading>Concert Review Authors</Heading>
       <AuthorList>
         {authors.map(author => (

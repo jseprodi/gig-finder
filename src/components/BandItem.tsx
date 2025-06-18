@@ -58,6 +58,11 @@ export function BandItem(props: Props) {
           <div className="text-base text-gray-200 text-center mb-4">
             <span className="font-semibold">Members:</span> {Array.isArray(props.bandMember) ? props.bandMember.join(", ") : ""}
           </div>
+          {props.socialMedia && props.socialMedia.value && (
+            <div className="prose prose-invert mx-auto text-center text-base max-w-none bg-gray-900/40 rounded-lg p-4 mb-4">
+              <RichTextElement element={props.socialMedia} />
+            </div>
+          )}
           <article className="prose prose-invert mx-auto text-left text-base max-w-none bg-gray-900/60 rounded-lg p-6 mb-4">
             {props.bandBio && props.bandBio.value && <RichTextElement element={props.bandBio} />}
           </article>

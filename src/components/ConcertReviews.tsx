@@ -5,7 +5,7 @@ import { getConcertReviews } from "../utils/kontentClient";
 import type { ConcertReview } from "../models/content-types/concertReview";
 import styles from "../app/page.module.css";
 
-export default function ConcertReviews() {
+export default function ConcertReviews({ onResults, containerClass }: { onResults?: (results: ConcertReview[]) => void, containerClass?: string }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ConcertReview[]>([]);
   const [loading, setLoading] = useState(false);
@@ -16,10 +16,11 @@ export default function ConcertReviews() {
     const reviews = await getConcertReviews(query);
     setResults(reviews);
     setLoading(false);
+    if (onResults) onResults(reviews);
   }
 
   return (
-    <div>
+    <div className={containerClass}>
       <form onSubmit={handleSearch} className={styles.searchForm}>
         <input
           className={styles.input}

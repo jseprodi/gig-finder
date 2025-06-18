@@ -1,20 +1,31 @@
 import { getConcertReviewsForConcertSlug } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
 import Link from "next/link";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Main = styled('main', {
-  maxWidth: '40rem',
-  margin: '0 auto',
-  padding: '$12 $4',
+  maxWidth: '48rem',
+  margin: '2rem auto',
+  padding: '3rem 1.5rem',
+  background: 'linear-gradient(135deg, #1e293b 80%, #2563eb 100%)',
+  minHeight: '80vh',
+  color: '#fff',
+  borderRadius: '2rem',
+  boxShadow: '0 4px 32px #0003',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '2.5rem',
 });
 
 const Heading = styled('h1', {
-  fontSize: '$4xl',
-  fontWeight: '$bold',
-  marginBottom: '$12',
+  fontSize: '2.5rem',
+  fontWeight: 800,
+  marginBottom: '1.5rem',
   textAlign: 'center',
-  color: '$heading',
+  color: '#60a5fa',
   letterSpacing: '-0.01em',
+  textShadow: '0 2px 8px #0002',
 });
 
 const ReviewList = styled('ul', {
@@ -73,6 +84,7 @@ export default async function ConcertReviewsPage({ params }: { params: Promise<{
 
   return (
     <Main>
+      <Breadcrumbs />
       <Heading>Concert Reviews</Heading>
       <ReviewList>
         {reviews.map(review => {

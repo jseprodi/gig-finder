@@ -1,6 +1,7 @@
 import { getConcertReviews } from "@/utils/kontentClient";
 import { getPersonById } from "@/utils/getPersonById";
 import { styled } from "@/styles/stitches.config";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Main = styled('main', {
   maxWidth: '40rem',
@@ -78,6 +79,7 @@ export default async function AuthorReviewsPage({ params }: { params: Promise<{ 
 
   return (
     <Main>
+      <Breadcrumbs />
       <Heading>Reviews by {authorFirst} {authorLast}</Heading>
       <div style={{ textAlign: 'center', color: '#6b7280', fontSize: '1.1rem', marginBottom: '2.5rem' }}>
         {vocation && <span style={{ color: '#2563eb', fontWeight: 600 }}>{vocation}</span>}
