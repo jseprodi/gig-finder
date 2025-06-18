@@ -1,7 +1,7 @@
 import { getConcertReviews } from "@/utils/kontentClient";
 import { getPersonById } from "@/utils/getPersonById";
 import { styled } from "@/styles/stitches.config";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
 const Main = styled('main', {
   maxWidth: '40rem',

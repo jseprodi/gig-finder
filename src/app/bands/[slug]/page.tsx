@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getBands } from "@/utils/kontentClient";
 import { BandItem } from "@/components/BandItem";
 import { styled } from "@/styles/stitches.config";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
 const Main = styled('main', {
   maxWidth: '48rem',

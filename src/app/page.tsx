@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 import BandSearch from "../components/BandSearch";
 import VenueSearch from "../components/VenueSearch";
 import ConcertReviews from "../components/ConcertReviews";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "../components/Breadcrumbs";
 import { FaGuitar, FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import clsx from "clsx";
 import type { Band } from '../models/content-types/band';

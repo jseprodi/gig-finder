@@ -2,7 +2,7 @@ import { getConcertReviews } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
 import Link from "next/link";
 import type { Person } from "@/models/content-types/person";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 const Main = styled('main', {
   maxWidth: '40rem',
