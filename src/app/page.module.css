@@ -6,14 +6,14 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
 
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
   min-height: 100svh;
-  padding: 80px;
+  padding: 80px 0;
   gap: 64px;
   font-family: var(--font-geist-sans);
+  background: var(--gray-alpha-100);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,6 +32,7 @@
   flex-direction: column;
   gap: 32px;
   grid-row-start: 2;
+  margin-bottom: 32px;
 }
 
 .main ol {
@@ -127,9 +128,14 @@ a.secondary {
 }
 
 @media (max-width: 600px) {
+  .section {
+    max-width: 100%;
+    margin: 32px 0;
+    padding: 18px 6px;
+  }
   .page {
-    padding: 32px;
-    padding-bottom: 80px;
+    padding: 32px 0;
+    gap: 32px;
   }
 
   .main {
@@ -164,5 +170,103 @@ a.secondary {
 @media (prefers-color-scheme: dark) {
   .logo {
     filter: invert();
+  }
+}
+
+.section {
+  margin: 48px 0;
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  padding: 32px 24px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.searchForm {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--gray-alpha-200);
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.button {
+  background: var(--foreground);
+  color: var(--background);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cardList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.card {
+  background: var(--gray-alpha-100);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--gray-alpha-200);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  border-color: #a3a3a3;
+}
+
+@media (max-width: 600px) {
+  .section {
+    max-width: 100%;
+    margin: 32px 0;
+    padding: 18px 6px;
+  }
+  .cardList {
+    gap: 16px;
+  }
+  .card {
+    padding: 14px 10px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .section, .sidebar {
+    background: #18181b;
+    border-color: #27272a;
+    color: #ededed;
+  }
+  .card {
+    background: #18181b;
+    border-color: #27272a;
   }
 }
