@@ -1,6 +1,6 @@
 import { getConcertsByBandSlug, getBands } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
-import Breadcrumbs from "../../../components/Breadcrumbs";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Main = styled("main", {
   maxWidth: "64rem",
