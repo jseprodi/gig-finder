@@ -1,6 +1,7 @@
 import { getConcertReviews } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
 import Link from "next/link";
+import type { Person } from "@/models/content-types/person";
 
 const Main = styled('main', {
   maxWidth: '40rem',
@@ -47,7 +48,7 @@ const AuthorName = styled('span', {
 export default async function AuthorsListPage() {
   // Get all reviews, extract all unique authors with vocation 'Author'
   const reviews = await getConcertReviews("");
-  const authorsMap = new Map();
+  const authorsMap = new Map<string, Person>();
   for (const review of reviews) {
     const author = review.elements.author.linkedItems?.[0];
     if (
