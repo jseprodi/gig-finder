@@ -93,7 +93,6 @@ export default async function VenueConcertsPage({ params }: { params: Promise<{ 
           const bandLogo = mainBand?.elements.band_logo?.value?.[0]?.url || "";
           const promoImage = mainBand?.elements.promotional_image?.value?.[0]?.url || concert.elements.hero_image.value[0]?.url || "";
           const bandName = mainBand?.elements.band_name?.value || concert.elements.band?.value || "";
-          const bandSlug = mainBand?.elements.slug?.value || "";
           const venue = concert.elements.venue.linkedItems?.[0];
           const venueName = venue?.elements.venue_name?.value || "";
           const venueSlug = venue?.elements.venue_slug?.value || "";

@@ -46,13 +46,6 @@ const ReviewTitle = styled('h2', {
   lineHeight: '1.2',
 });
 
-const Author = styled('div', {
-  fontSize: '$sm',
-  color: '$muted',
-  marginBottom: '$4',
-  span: { fontWeight: '$medium', color: '$text' },
-});
-
 const ReviewBody = styled('div', {
   fontSize: '$base',
   color: '$text',

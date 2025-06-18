@@ -52,7 +52,7 @@ export default async function AuthorsListPage() {
     const author = review.elements.author.linkedItems?.[0];
     if (
       author &&
-      author.elements.vocation?.value?.some((v: any) => typeof v === 'string' && v.toLowerCase().includes('author'))
+      author.elements.vocation?.value?.some((v: unknown) => typeof v === 'string' && v.toLowerCase().includes('author'))
     ) {
       authorsMap.set(author.system.id, author);
     }
