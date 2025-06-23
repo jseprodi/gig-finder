@@ -1,6 +1,7 @@
 import { getConcertsByBandSlug, getBands } from "@/utils/kontentClient";
 import { styled } from "@/styles/stitches.config";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import Image from 'next/image';
 
 const Main = styled("main", {
   maxWidth: "64rem",
@@ -145,7 +146,14 @@ export default async function BandConcertsPage({ params }: { params: Promise<{ s
             <Card key={concert.system.id}>
               {/* Hero Image */}
               {promoImage && (
-                <img src={promoImage} alt={concert.elements.title.value} style={{ width: '100%', height: '16rem', objectFit: 'cover', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }} />
+                <Image
+                  src={promoImage}
+                  alt={concert.elements.title.value}
+                  width={800}
+                  height={256}
+                  style={{ width: '100%', height: '16rem', objectFit: 'cover', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
+                  priority
+                />
               )}
               <CardBody>
                 {/* Concert Title */}

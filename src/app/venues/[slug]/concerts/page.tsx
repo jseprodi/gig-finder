@@ -139,7 +139,14 @@ export default async function VenueConcertsPage({ params }: { params: Promise<{ 
             <Card key={concert.system.id}>
               {/* Hero Image */}
               {promoImage && (
-                <Image src={promoImage} alt={concert.elements.title.value} width={600} height={300} style={{ width: '100%', height: '16rem', objectFit: 'cover', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }} />
+                <Image
+                  src={promoImage}
+                  alt={concert.elements.title.value}
+                  width={800}
+                  height={256}
+                  style={{ width: '100%', height: '16rem', objectFit: 'cover', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
+                  priority
+                />
               )}
               <CardBody>
                 {/* Concert Title */}
